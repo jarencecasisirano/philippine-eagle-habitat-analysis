@@ -2,7 +2,7 @@
 
 ## **About**
 
-This project explores the spatial distribution of vegetation health, represented by NDVI, and investigates its relationship with climatic factors like rainfall and temperature using spatial statistical techniques. It employs Moran's I to assess spatial autocorrelation, spatial regression to quantify the influence of climatic variables on NDVI while accounting for spatial dependencies, and kriging to interpolate NDVI values and predict spatial patterns. Additionally, it incorporates typhoon track data to analyze the impact of these extreme weather events on vegetation health, adding a dynamic perspective to the analysis. The study integrates GIS and remote sensing data, offering insights into vegetation dynamics for ecological monitoring and conservation planning.
+This project investigates the spatial distribution of vegetation health, represented by NDVI, and its relationship with climatic factors such as rainfall, temperature, and typhoon activity. It employs spatial statistical techniques, including Moran’s I for spatial autocorrelation, spatial regression to quantify the influence of climatic variables and typhoons on NDVI, and kriging to interpolate NDVI patterns. By integrating GIS and remote sensing data with historical typhoon track analysis, the study aims to provide insights into how vegetation responds to climatic variability and extreme weather events, contributing to ecological monitoring and disaster mitigation efforts.
 
 ## **Objective**
 
