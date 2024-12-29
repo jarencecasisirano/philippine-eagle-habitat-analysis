@@ -1,5 +1,9 @@
 # Spatial Statistical Analysis of Vegetation Health (NDVI) and Its Relationship with Rainfall and Temperature
 
+## **About**
+
+This project explores the spatial distribution of vegetation health, represented by NDVI, and investigates its relationship with climatic factors like rainfall and temperature using spatial statistical techniques. It employs Moran's I to assess spatial autocorrelation, spatial regression to quantify the influence of climatic variables on NDVI while accounting for spatial dependencies, and kriging to interpolate NDVI values and predict spatial patterns. The analysis integrates GIS and remote sensing data, offering insights into vegetation dynamics for ecological monitoring and conservation planning.
+
 ## **Objective**
 
 To analyze the spatial distribution of vegetation health using NDVI and investigate its relationship with rainfall and temperature using spatial statistical techniques such as Moran's I, spatial regression, and kriging.
