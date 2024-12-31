@@ -1,144 +1,137 @@
-# Spatial Statistical Analysis of Vegetation Health (NDVI) and Its Relationship with Rainfall and Temperature
-
-## **About**
-
-This project investigates the spatial distribution of vegetation health, represented by NDVI, and its relationship with climatic factors such as rainfall, temperature, and typhoon activity. It employs spatial statistical techniques, including Moran’s I for spatial autocorrelation, spatial regression to quantify the influence of climatic variables and typhoons on NDVI, and kriging to interpolate NDVI patterns. By integrating GIS and remote sensing data with historical typhoon track analysis, the study aims to provide insights into how vegetation responds to climatic variability and extreme weather events, contributing to ecological monitoring and disaster mitigation efforts.
-
-## **Objective**
-
-To analyze the spatial distribution of vegetation health using NDVI and investigate its relationship with rainfall, temperature, and typhoon activity using spatial statistical techniques such as Moran's I, spatial regression, and kriging.
+# Project Title: Habitat Suitability Prediction for the Philippine Eagle Using Variogram Modeling and Kriging
 
 ---
 
-## **Software and Tools**
+## Research Questions
 
-### **1. R (Primary Software)**
-
-- **Packages**: `raster`, `sf`, `sp`, `spdep`, `gstat`, `ggplot2`.
-- **Purpose**: Spatial data analysis, spatial statistics, visualization.
-
-### **2. QGIS or ArcGIS**
-
-- **Purpose**:
-  - Clip datasets, align spatial resolutions, and export raster values as points or grids for R.
-
-### **3. Google Earth Engine (Optional)**
-
-- **Purpose**:
-  - Data acquisition for NDVI, rainfall, and temperature.
+1. **What are the spatial patterns of habitat suitability for the Philippine Eagle in the study area?**
+2. **How can habitat suitability be predicted across unsampled locations in the study area?**
+3. **What is the spatial distribution of Philippine Eagle occurrence points?**
+4. **Where are the hotspots of Philippine Eagle occurrences based on density estimation?**
 
 ---
 
-## **Data Sources**
+## Objectives/Goals
 
-### **1. NDVI**
-
-- Dataset: MODIS (MOD13Q1) or Sentinel-2 NDVI.
-- Platform: Google Earth Engine, NASA Earthdata, or Copernicus Open Hub.
-
-### **2. Rainfall**
-
-- Dataset: CHIRPS (Climate Hazards Group InfraRed Precipitation with Station Data).
-- Platform: ClimateSERV or Google Earth Engine.
-
-### **3. Temperature**
-
-- Dataset: ERA5 or CRU TS datasets for mean surface temperature.
-- Platform: Copernicus Climate Data Store or Google Earth Engine.
-
-### **4. Typhoon Tracks**
-
-- Dataset: Historical typhoon track data (vector shapefiles).
-- Platform: National meteorological agencies or publicly available repositories.
-
-### **5. Boundary Data**
-
-- Administrative or ecological boundaries for clipping the data.
-- Platform: Natural Earth, GADM, or OpenStreetMap.
+1. **Analyze spatial autocorrelation in habitat suitability** to understand how suitability varies with distance.
+2. **Predict habitat suitability** across the study region to identify unsampled areas with high suitability.
+3. **Analyze spatial distribution** of occurrence points to detect clustering or randomness.
+4. **Visualize hotspots** of eagle occurrences using density estimation techniques.
 
 ---
 
-## **Execution Plan (Methods)**
+## Methodology
 
-### **Step 1: Data Preprocessing**
+### **1. Exploratory Data Analysis**
 
-1. Clip NDVI, rainfall, temperature, and typhoon track data to the study area.
-2. Resample all raster datasets to the same spatial resolution.
-3. Rasterize typhoon track data to create a binary layer indicating typhoon presence during a specific period.
-4. Export raster values to points or grids for analysis in R.
+#### **Point Pattern Analysis**
 
-### **Step 2: Exploratory Data Analysis**
+- **Quadrat Analysis**:
+  - Divide the study area into grid cells and count occurrences in each cell.
+  - Test for spatial randomness using a chi-square test.
+- **Nearest Neighbor Analysis**:
+  - Calculate the average distance to the nearest neighbor for each point.
+  - Compute the Nearest Neighbor Index (NNI) to classify the pattern as clustered, random, or dispersed.
+- **Ripley’s K-function**:
+  - Analyze clustering or dispersion at multiple spatial scales.
 
-1. Visualize NDVI, rainfall, temperature, and typhoon tracks using maps.
-2. Compute statistical summaries (means, variances) for each variable.
-3. Explore relationships between NDVI, climatic factors, and typhoon presence using scatterplots and time-series plots.
+#### **Kernel Density Estimation (KDE)**
 
-### **Step 3: Spatial Autocorrelation**
+- Generate KDE maps to visualize the intensity of eagle occurrences.
+- Use KDE to identify hotspots and provide preliminary insights for habitat suitability modeling.
 
-1. Compute Moran's I to assess spatial clustering of NDVI.
-2. Generate Moran scatterplots and perform permutation tests for significance.
+### **2. Data Preparation**
 
-### **Step 4: Spatial Regression**
+- **Data Sources**:
+  - Philippine Eagle occurrence dataset (latitude, longitude).
+  - Covariate layers: proximity to forests, rivers, elevation, temperature, and rainfall.
+- **Steps**:
+  - Preprocess and clean the occurrence dataset.
+  - Extract covariate values at each occurrence point.
+  - Normalize or standardize covariates and compute a "habitat suitability index" as a weighted sum or through regression modeling.
 
-1. Fit spatial regression models (e.g., spatial lag or spatial error models) to quantify the effect of rainfall, temperature, and typhoon activity on NDVI.
-2. Validate model results and interpret coefficients.
+### **3. Variogram Modeling**
 
-### **Step 5: Variogram and Kriging**
+- **Steps**:
+  - Calculate a variogram for the habitat suitability index to quantify spatial autocorrelation.
+  - Fit theoretical models (e.g., spherical, exponential) to the experimental variogram.
+  - Identify key parameters: range (distance of spatial dependence), sill (variance explained by spatial structure), and nugget (unexplained variance).
+- **Expected Tools**:
+  - R packages: `gstat`, `sp`.
 
-1. Perform variogram modeling to understand spatial dependence in NDVI.
-2. Use kriging to interpolate NDVI values and generate prediction maps with uncertainties.
+### **4. Kriging Interpolation**
 
-### **Step 6: Typhoon Impact Analysis**
+- **Steps**:
+  - Perform ordinary kriging to interpolate habitat suitability across the study area using the fitted variogram model.
+  - Generate a continuous surface map of predicted habitat suitability.
+- **Expected Tools**:
+  - R packages: `gstat`, `sp`, `raster`.
 
-1. Aggregate NDVI, rainfall, and temperature data by month or season.
-2. Introduce a binary variable indicating the presence or absence of typhoons for each period.
-3. Compare NDVI values during months/seasons with and without typhoons.
-4. Visualize the impact of typhoons on NDVI using maps and statistical plots.
+### **5. Post-Kriging Analysis and Validation**
 
-### **Step 7: Visualization and Reporting**
+#### **Kernel Density Estimation (KDE)**
 
-1. Create maps showing:
-   - NDVI distribution and hotspots.
-   - Regression residuals.
-   - Kriging predictions and uncertainties.
-   - Typhoon tracks and their spatial overlap with NDVI.
-2. Summarize findings in a report.
+- Use KDE to validate and compare observed eagle density hotspots with predicted habitat suitability from kriging.
+- Identify areas of agreement and divergence between KDE and kriging outputs.
 
----
+### **6. Analysis and Mapping**
 
-## **Expected Outputs/Results**
-
-### **1. Spatial Statistics**
-
-- Moran’s I results indicating spatial clustering of NDVI.
-- Regression coefficients quantifying the effect of climatic factors and typhoon presence on NDVI.
-
-### **2. Maps**
-
-- NDVI distribution and identified hotspots.
-- Kriging predictions with uncertainties.
-- Regression residual maps.
-- Typhoon track overlays with NDVI.
-
-### **3. Insights**
-
-- Identify areas of poor vegetation health correlated with climatic extremes and typhoon activity.
-- Provide recommendations for targeted conservation and disaster mitigation efforts.
-
-### **4. Deliverables**
-
-- Final report containing:
-  - Introduction, methodology, results, and discussion.
-  - Maps and statistical outputs.
+- **Steps**:
+  - Analyze the kriging results to identify regions with high habitat suitability.
+  - Create visualizations (maps and density plots) to communicate findings.
+- **Expected Tools**:
+  - GIS software (QGIS or R with `tmap`/`ggplot2`).
 
 ---
 
-## **Why This Project Works**
+## Technology and Concepts to Be Used
 
-1. **Alignment with Course Concepts**:
-   - Incorporates Moran’s I, spatial regression, variogram analysis, and kriging as taught in class.
-2. **GIS and Remote Sensing Integration**:
-   - Combines remote sensing data with spatial statistical tools.
-   - Includes the analysis of vector-based typhoon tracks in conjunction with raster datasets.
-3. **Feasibility**:
-   - Uses freely available data and reproducible workflows in R.
+1. **Technology**:
+
+   - R programming language (with libraries: `gstat`, `sp`, `raster`, `ggplot2`).
+   - GIS tools (e.g., QGIS for map overlays and visualizations).
+
+2. **Concepts**:
+
+   - Variogram modeling: Understanding spatial autocorrelation and fitting theoretical models.
+   - Kriging: Interpolating spatial data to predict values at unsampled locations.
+   - Habitat suitability modeling: Using covariates to estimate habitat quality.
+   - Spatial Point Pattern Analysis: Quadrat Test, Nearest Neighbor Analysis, and Ripley’s K-function.
+   - Kernel Density Estimation (KDE): Visualizing intensity and hotspots of eagle occurrences, and comparing density maps to model predictions.
+   - Mapping and visualization: Creating maps to communicate spatial patterns and suitability predictions.
+
+---
+
+## Expected Outputs
+
+1. **Exploratory Data Analysis**:
+
+   - Quadrat Test results showing clustering or randomness at a large scale.
+   - Nearest Neighbor Index (NNI) indicating clustering, randomness, or dispersion.
+   - Ripley’s K-function plots showing clustering at multiple spatial scales.
+   - KDE maps highlighting hotspots of eagle occurrences.
+
+2. **Variogram Analysis**:
+
+   - Experimental variogram plot showing spatial dependence of habitat suitability.
+   - Fitted variogram model parameters (range, sill, nugget).
+
+3. **Kriging Prediction**:
+
+   - Continuous surface map of predicted habitat suitability.
+   - Spatial distribution of high-suitability regions.
+
+4. **Post-Kriging Validation**:
+
+   - KDE maps compared to kriging predictions to assess alignment of observed and predicted patterns.
+
+5. **Visualization and Documentation**:
+
+   - Clear and visually appealing maps showing spatial patterns.
+   - Statistical summaries and interpretation of findings.
+
+---
+
+## Significance
+
+This project will provide insights into the spatial distribution of suitable habitats for the Philippine Eagle, offering valuable information for conservation planning. It demonstrates the application of advanced spatial statistics (variogram modeling, kriging, and point pattern analysis) to a real-world ecological problem, aligning with both academic and practical goals.
