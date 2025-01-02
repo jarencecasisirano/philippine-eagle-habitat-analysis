@@ -16,7 +16,7 @@
 1. To examine the spatial distribution and randomness of Philippine Eagle sightings using point pattern analysis techniques.
 2. To generate density maps of Philippine Eagle sightings and identify geographic hotspots.
 3. To assess and map the spatially varying relationship between environmental covariates (e.g., forest cover, elevation, proximity to rivers) and Philippine Eagle sightings using Geographically Weighted Regression (GWR).
-4. To predict potential habitats for the Philippine Eagle by modeling environmental conditions associated with historical sightings using MaxEnt
+4. To predict potential habitats for the Philippine Eagle by modeling environmental conditions associated with historical sightings using MaxEnt.
 
 ---
 
@@ -47,9 +47,9 @@
   - Proximity to rivers.
   - Forest cover (categorical: forest, rangeland, others).
 - **Steps**:
-  - Extract covariate values at each point location (eagle sightings and pseudo-absences).
+  - Extract covariate values at each point location (eagle sightings).
   - Standardize numerical covariates and handle missing values.
-  - Generate pseudo-absence points to balance presence data.
+  - Downsample raster layers for computational efficiency (e.g., aggregate to ~30m resolution).
 
 ### **3. Geographically Weighted Regression (GWR)**
 
@@ -57,11 +57,23 @@
   - Assess spatially varying relationships between eagle presence and environmental covariates.
 - **Steps**:
   - Select optimal adaptive bandwidth using cross-validation.
-  - Fit a GWR model using the presence-absence dataset and covariates.
+  - Fit a GWR model using the presence data and covariates.
   - Extract and visualize local coefficients and \(R^2\) values.
 - **Outputs**:
   - Coefficient maps showing the influence of each covariate across the study area.
   - Local \(R^2\) map to evaluate model performance spatially.
+
+### **4. Habitat Suitability Prediction with MaxEnt**
+
+- **Objective**:
+  - Predict potential habitats for the Philippine Eagle by modeling environmental conditions associated with presence points.
+- **Steps**:
+  - Train a MaxEnt model using presence points and environmental raster layers (elevation, proximity to rivers, and forest cover).
+  - Generate habitat suitability maps.
+  - Evaluate the model using built-in AUC metrics and mean suitability of test presence points.
+- **Outputs**:
+  - Habitat suitability map highlighting areas with conditions similar to presence locations.
+  - AUC score and summary of suitability values for model validation.
 
 ---
 
@@ -69,13 +81,14 @@
 
 1. **Technology**:
 
-   - R programming language (with libraries: `spgwr`, `spatstat`, `raster`, `ggplot2`).
+   - R programming language (with libraries: `spgwr`, `spatstat`, `raster`, `dismo`, `ggplot2`).
    - GIS tools (e.g., QGIS for additional visualizations).
 
 2. **Concepts**:
    - Point Pattern Analysis: Quadrat Test, Nearest Neighbor Analysis, and Ripley’s K-function.
    - Kernel Density Estimation (KDE): Identifying high-density hotspots of eagle occurrences.
    - Geographically Weighted Regression (GWR): Mapping spatially varying relationships between predictors and eagle presence.
+   - MaxEnt Modeling: Predicting habitat suitability based on environmental covariates.
 
 ---
 
@@ -93,7 +106,12 @@
    - Coefficient maps for elevation, proximity to rivers, and forest cover.
    - Local \(R^2\) map showing spatial variability in model performance.
 
-3. **Visualization and Documentation**:
+3. **MaxEnt Outputs**:
+
+   - Habitat suitability map highlighting potential areas for Philippine Eagle habitats.
+   - AUC score from MaxEnt training (e.g., 0.7585) and mean suitability for test presence points (e.g., 0.6728).
+
+4. **Visualization and Documentation**:
    - Clear maps and plots illustrating spatial patterns and predictor effects.
    - Statistical summaries and interpretations of findings.
 
@@ -101,4 +119,4 @@
 
 ## Significance
 
-This project provides insights into the spatial distribution of suitable habitats for the Philippine Eagle. The analysis combines advanced spatial statistics (point pattern analysis, KDE, and GWR) to inform conservation planning. It highlights regions critical for eagle habitats and identifies environmental factors influencing their distribution, offering actionable recommendations for habitat protection.
+This project provides insights into the spatial distribution of suitable habitats for the Philippine Eagle. The analysis combines advanced spatial statistics (point pattern analysis, KDE, GWR, and MaxEnt) to inform conservation planning. It highlights regions critical for eagle habitats and identifies environmental factors influencing their distribution, offering actionable recommendations for habitat protection.
