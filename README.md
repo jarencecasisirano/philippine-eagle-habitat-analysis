@@ -1,4 +1,4 @@
-# Project Title: Mapping Spatial Patterns and Environmental Influences on Philippine Eagle Sightings
+# Project Title: Mapping Spatial Patterns and Environmental Drivers of Philippine Eagle Presence: Insights from Historical Sightings Data
 
 ---
 
@@ -7,6 +7,7 @@
 1. **Are Philippine Eagle sightings spatially random, or do they exhibit clustering or dispersion patterns?**
 2. **Where are the high-density hotspots of Philippine Eagle sightings?**
 3. **How do environmental factors such as forest cover, elevation, and proximity to rivers influence the spatial variability of Philippine Eagle presence?**
+4. **Where are areas with environmental conditions similar to those associated with Philippine Eagle sightings, and how can they inform potential habitat prediction?**
 
 ---
 
@@ -15,6 +16,7 @@
 1. To examine the spatial distribution and randomness of Philippine Eagle sightings using point pattern analysis techniques.
 2. To generate density maps of Philippine Eagle sightings and identify geographic hotspots.
 3. To assess and map the spatially varying relationship between environmental covariates (e.g., forest cover, elevation, proximity to rivers) and Philippine Eagle sightings using Geographically Weighted Regression (GWR).
+4. To predict potential habitats for the Philippine Eagle by modeling environmental conditions associated with historical sightings using MaxEnt
 
 ---
 
