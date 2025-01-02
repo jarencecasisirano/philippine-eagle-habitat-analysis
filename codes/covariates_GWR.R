@@ -233,6 +233,6 @@ ggplot(combined_data, aes(x = decimalLon, y = decimalLat, color = local_r2)) +
        x = "Longitude", y = "Latitude", color = "Local R²") +
   theme_minimal()
 
-
+# END OF SCRIPT
 
 

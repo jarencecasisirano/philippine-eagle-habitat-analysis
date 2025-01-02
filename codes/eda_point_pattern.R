@@ -89,3 +89,5 @@ cat("- Quadrat Test results\n")
 cat("- Nearest Neighbor Index\n")
 cat("- Ripley's K-function plot\n")
 cat("- KDE map saved as kde_map.tif\n")
+
+# END OF SCRIPT

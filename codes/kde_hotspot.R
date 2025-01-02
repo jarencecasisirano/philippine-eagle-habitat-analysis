@@ -70,3 +70,5 @@ ggplot(eagle_data, aes(x = decimalLon)) +
     y = "Density"
   ) +
   theme_minimal()
+
+# END OF SCRIPT
