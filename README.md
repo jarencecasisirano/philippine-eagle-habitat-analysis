@@ -2,6 +2,12 @@
 
 ---
 
+## Significance
+
+This project provides insights into the spatial distribution of suitable habitats for the Philippine Eagle. The analysis combines advanced spatial statistics (point pattern analysis, KDE, GWR, and MaxEnt) to inform conservation planning. It highlights regions critical for eagle habitats and identifies environmental factors influencing their distribution, offering actionable recommendations for habitat protection.
+
+---
+
 ## Research Questions
 
 1. **Are Philippine Eagle sightings spatially random, or do they exhibit clustering or dispersion patterns?**
@@ -114,9 +120,3 @@
 4. **Visualization and Documentation**:
    - Clear maps and plots illustrating spatial patterns and predictor effects.
    - Statistical summaries and interpretations of findings.
-
----
-
-## Significance
-
-This project provides insights into the spatial distribution of suitable habitats for the Philippine Eagle. The analysis combines advanced spatial statistics (point pattern analysis, KDE, GWR, and MaxEnt) to inform conservation planning. It highlights regions critical for eagle habitats and identifies environmental factors influencing their distribution, offering actionable recommendations for habitat protection.
