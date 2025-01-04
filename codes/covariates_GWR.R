@@ -16,10 +16,47 @@ forest <- raster("forest.tif")
 elevation <- raster("elev.tif")
 proximity_rivers <- raster("riverProximity.tif")
 
-# Visualize covariate layers
-plot(forest, main = "Forest Cover")
+#############################################
+
+# Define a color palette for the categories
+forest_colors <- c("gray", "darkgreen", "orange")  # Colors for others, forest, rangeland
+
+# Define labels for the categories
+forest_labels <- c("Others", "Forest", "Rangeland")
+
+par(mfrow = c(1, 3))  # 1 row, 3 columns
+
+# Plot elevation
 plot(elevation, main = "Elevation")
+
+# Plot proximity to rivers
 plot(proximity_rivers, main = "Proximity to Rivers")
+
+# Plot forest cover with categorical colors
+plot(
+  forest,
+  main = "Forest Cover",
+  col = forest_colors,
+  legend = FALSE,  # Disable legend here to add manually later
+  axes = TRUE,
+  box = FALSE
+)
+
+# Add the legend for forest cover
+legend(
+  "topright",                   # Position of the legend
+  legend = forest_labels,       # Labels for the categories
+  fill = forest_colors,         # Corresponding colors
+  title = "Categories",
+  cex = 0.7,                    # Text size (smaller)
+  y.intersp = 0.7               # Vertical spacing between legend items
+)
+
+# Reset par to default (optional)
+par(mfrow = c(1, 1))
+
+#############################################
+
 
 # Create a SpatialPoints object for eagle sightings
 sighting_points <- SpatialPoints(cbind(eagle_sightings$decimalLon, eagle_sightings$decimalLat),
