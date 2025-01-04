@@ -63,7 +63,7 @@ suitability_coarse <- predict(maxent_model_coarse, env_stack_coarse)
 
 # Step 8: Plot habitat suitability with overlays
 # Define a semi-transparent red color
-transparent_red <- alpha("red", 0.5)  # 0.5 = 50% transparency
+transparent_red <- alpha("red", 0.6)  # 0.6 = 60% transparency
 
 # Plot the habitat suitability raster
 plot(suitability_coarse, main = "Habitat Suitability with Contours and Points")
