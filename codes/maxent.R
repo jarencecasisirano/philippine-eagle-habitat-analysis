@@ -3,6 +3,7 @@ library(dismo)
 library(rJava)
 library(raster)
 library(scales)
+library(sp)
 
 # Step 1: Load eagle sightings data
 eagle_data <- read.csv("eagle_sightings.csv")
@@ -61,49 +62,72 @@ maxent_model_coarse <- maxent(
 # Step 7: Predict habitat suitability
 suitability_coarse <- predict(maxent_model_coarse, env_stack_coarse)
 
-# Step 8: Plot habitat suitability with overlays
-# Define a semi-transparent red color
-transparent_red <- alpha("red", 0.6)  # 0.6 = 60% transparency
-
-# Plot the habitat suitability raster
-plot(suitability_coarse, main = "Habitat Suitability with Contours and Points")
-
-# Add red semi-transparent contour lines
-contour(suitability_coarse, add = TRUE, col = transparent_red, lwd = 1)
-
-# Overlay the presence points
-points(presence$lon, presence$lat, col = "blue", pch = 20, cex = 0.6)
-
-# Add a legend
-legend("topright", legend = c("Presence Points", "Suitability Contours"),
-       col = c("blue", transparent_red), pch = c(20, NA), lwd = c(NA, 1), cex = 0.8)
-
-# Save the suitability map
-writeRaster(suitability_coarse, "eagle_habitat_suitability_coarse.tif", format = "GTiff", overwrite = TRUE)
-
-# Save the plot as a PNG
-png("suitability_with_contours_and_points.png", width = 800, height = 600)
-plot(suitability_coarse, main = "Habitat Suitability with Contours and Points")
-contour(suitability_coarse, add = TRUE, col = transparent_red, lwd = 1)
-points(presence$lon, presence$lat, col = "blue", pch = 20, cex = 0.6)
-legend("topright", legend = c("Presence Points", "Suitability Contours"),
-       col = c("blue", transparent_red), pch = c(20, NA), lwd = c(NA, 1), cex = 0.8)
-dev.off()
-
-# Step 9: Model evaluation using AUC and mean suitability
-# Extract the built-in AUC from MaxEnt results
+# Step 8: Model Evaluation - AUC
+# Extract AUC from MaxEnt results
 auc <- maxent_model_coarse@results[grep("AUC", rownames(maxent_model_coarse@results)), ]
 cat("AUC from MaxEnt training: ", auc, "\n")
 
-# Extract predicted suitability for presence points in the test set
+# Step 9: Evaluate mean suitability for test presence points
 predicted_suitability <- extract(suitability_coarse, presence_test)
-
-# Compute mean suitability for test presence points
 mean_suitability <- mean(predicted_suitability, na.rm = TRUE)
 cat("Mean suitability of test presence points: ", mean_suitability, "\n")
 
-# Save evaluation results
-evaluation_results <- data.frame(AUC = auc, Mean_Suitability = mean_suitability)
-write.csv(evaluation_results, "maxent_model_evaluation.csv", row.names = FALSE)
+# Step 10: Evaluate threshold-based metrics
+# Define a threshold (e.g., 10th percentile of training presence points)
+threshold <- quantile(extract(suitability_coarse, presence_train), probs = 0.1, na.rm = TRUE)
 
-# END OF SCRIPT
+# Generate binary predictions
+binary_predictions <- suitability_coarse >= threshold
+
+# Evaluate metrics using the test data
+test_predictions <- extract(binary_predictions, presence_test)
+
+# True Positives (TP) and False Negatives (FN)
+TP <- sum(test_predictions == 1, na.rm = TRUE)
+FN <- sum(test_predictions == 0, na.rm = TRUE)
+
+# Generate pseudo-absence points for evaluation
+pseudo_absence <- spsample(as(extent(env_stack_coarse), "SpatialPolygons"), n = 1000, type = "random")
+pseudo_absence_predictions <- extract(binary_predictions, coordinates(pseudo_absence))
+
+# True Negatives (TN) and False Positives (FP)
+TN <- sum(pseudo_absence_predictions == 0, na.rm = TRUE)
+FP <- sum(pseudo_absence_predictions == 1, na.rm = TRUE)
+
+# Calculate metrics
+sensitivity <- TP / (TP + FN)  # True Positive Rate
+specificity <- TN / (TN + FP)  # True Negative Rate
+TSS <- sensitivity + specificity - 1
+accuracy <- (TP + TN) / (TP + TN + FP + FN)
+precision <- TP / (TP + FP)
+
+# Print metrics
+cat("Model Evaluation Metrics:\n")
+cat("Sensitivity: ", sensitivity, "\n")
+cat("Specificity: ", specificity, "\n")
+cat("TSS: ", TSS, "\n")
+cat("Accuracy: ", accuracy, "\n")
+cat("Precision: ", precision, "\n")
+
+# Save evaluation metrics to a CSV file
+evaluation_metrics <- data.frame(
+  AUC = auc,
+  Mean_Suitability = mean_suitability,
+  Sensitivity = sensitivity,
+  Specificity = specificity,
+  TSS = TSS,
+  Accuracy = accuracy,
+  Precision = precision
+)
+write.csv(evaluation_metrics, "maxent_evaluation_metrics.csv", row.names = FALSE)
+
+# Step 11: Save suitability raster and plot
+writeRaster(suitability_coarse, "eagle_habitat_suitability_coarse.tif", format = "GTiff", overwrite = TRUE)
+
+png("suitability_with_metrics.png", width = 800, height = 600)
+plot(suitability_coarse, main = "Habitat Suitability with Metrics")
+contour(suitability_coarse, add = TRUE, col = alpha("red", 0.6), lwd = 1)
+points(presence_test$lon, presence_test$lat, col = "blue", pch = 20, cex = 0.6)
+legend("topright", legend = c("Test Presence Points", "Suitability Contours"),
+       col = c("blue", "red"), pch = c(20, NA), lwd = c(NA, 1), cex = 0.8)
+dev.off()
