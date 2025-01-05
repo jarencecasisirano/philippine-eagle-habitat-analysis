@@ -127,7 +127,8 @@ writeRaster(suitability_coarse, "eagle_habitat_suitability_coarse.tif", format =
 png("suitability_with_metrics.png", width = 800, height = 600)
 plot(suitability_coarse, main = "Habitat Suitability with Metrics")
 contour(suitability_coarse, add = TRUE, col = alpha("red", 0.6), lwd = 1)
-points(presence_test$lon, presence_test$lat, col = "blue", pch = 20, cex = 0.6)
+points(presence_test$lon, presence_test$lat, col = "blue", pch = 20, cex = 2)
 legend("topright", legend = c("Test Presence Points", "Suitability Contours"),
        col = c("blue", "red"), pch = c(20, NA), lwd = c(NA, 1), cex = 0.8)
 dev.off()
+

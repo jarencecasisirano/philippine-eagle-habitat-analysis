@@ -151,7 +151,6 @@ ggplot(eagle_sightings, aes(x = proximity_rivers, y = elevation)) +
   theme_minimal()
 
 ########################################################################################################
-
 library(spgwr)
 library(ggplot2)
 
@@ -270,6 +269,19 @@ ggplot(combined_data, aes(x = decimalLon, y = decimalLat, color = local_r2)) +
        x = "Longitude", y = "Latitude", color = "Local R²") +
   theme_minimal()
 
+# Summarize local R-squared values
+local_r2_summary <- summary(combined_data$local_r2)
+print(local_r2_summary)
+
+# Example output to include in results
+mean_local_r2 <- mean(combined_data$local_r2, na.rm = TRUE)
+min_local_r2 <- min(combined_data$local_r2, na.rm = TRUE)
+max_local_r2 <- max(combined_data$local_r2, na.rm = TRUE)
+
+cat("Local R-squared summary:\n")
+cat("Mean:", mean_local_r2, "\n")
+cat("Min:", min_local_r2, "\n")
+cat("Max:", max_local_r2, "\n")
+
+
 # END OF SCRIPT
-
-
