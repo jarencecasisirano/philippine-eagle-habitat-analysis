@@ -26,14 +26,14 @@ This repository contains the analysis of Philippine Eagle (_Pithecophaga jeffery
 
 - **Spatial Clustering**:
   - Quadrat analysis and Ripley’s K-function confirmed significant clustering of eagle sightings in forested areas.
-  - **[Figure 6: KDE Plot](https://github.com/jarencecasisirano/philippine-eagle-habitat-analysis/blob/main/assets/figure6.png)**: Hotspots of eagle occurrences.
+  - ![Figure 6: KDE Plot](assets/figure6.png): Hotspots of eagle occurrences.
 - **Environmental Drivers**:
   - GWR revealed spatial variations in the influence of covariates.
-  - **[Figure 17: Elevation Coefficients](https://github.com/jarencecasisirano/philippine-eagle-habitat-analysis/blob/main/assets/figure17.png)**: Positive association between elevation and eagle presence in specific regions.
-  - **[Figure 21: Local R² Map](https://github.com/jarencecasisirano/philippine-eagle-habitat-analysis/blob/main/assets/figure21.png)**: Model performance across the study area.
+  - ![Figure 17: Elevation Coefficients](assets/figure17.png): Positive association between elevation and eagle presence in specific regions.
+  - ![Figure 21: Local R² Map](assets/figure21.png): Model performance across the study area.
 - **Habitat Suitability**:
   - MaxEnt predicted areas with high ecological suitability for eagle habitats.
-  - **[Figure 22: Habitat Suitability Map](https://github.com/jarencecasisirano/philippine-eagle-habitat-analysis/blob/main/assets/figure22.png)**: Priority areas for conservation.
+  - ![Figure 22: Habitat Suitability Map](assets/figure22.png): Priority areas for conservation.
 
 ### **2. Statistical Outputs**
 
