@@ -76,5 +76,7 @@ This repository contains the analysis of Philippine Eagle (_Pithecophaga jeffery
    ```bash
    git clone https://github.com/jarencecasisirano/philippine-eagle-habitat-analysis.git
    ```
-   
+2. Download the data here:
+   > [Philippine Eagle Occurrence Records](https://www.gbif.org/dataset/7bfbd7bb-fdd8-44ff-ab28-7f92c2d55ee3)
+
 _Note: This project was created as part of a course requirement in spatial statistics._
